@@ -1,0 +1,232 @@
+<dialog class="lightbox" id="screenshot-lightbox" aria-label="Просмотр скриншота">
+	<button type="button" class="lightbox-close" aria-label="Закрыть">×</button>
+	<button type="button" class="lightbox-nav lightbox-prev" aria-label="Предыдущий скриншот" hidden>
+		←
+	</button>
+	<img class="lightbox-image" alt="" />
+	<button type="button" class="lightbox-nav lightbox-next" aria-label="Следующий скриншот" hidden>
+		→
+	</button>
+</dialog>
+
+<style>
+	.lightbox {
+		width: 100%;
+		max-width: none;
+		height: 100%;
+		max-height: none;
+		padding: 2rem;
+		margin: 0;
+		border: none;
+		background: rgb(28 25 23 / 0.94);
+		opacity: 0;
+	}
+
+	.lightbox:not([open]) {
+		display: none;
+	}
+
+	.lightbox[open] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.lightbox::backdrop {
+		background: transparent;
+	}
+
+	.lightbox-image {
+		display: block;
+		max-width: min(100%, calc(100vw - 8rem));
+		max-height: calc(100vh - 4rem);
+		object-fit: contain;
+	}
+
+	.lightbox-close,
+	.lightbox-nav {
+		position: fixed;
+		padding: 0;
+		border: none;
+		color: #fafaf9;
+		background: transparent;
+		cursor: pointer;
+		font-family: var(--font-body);
+		line-height: 1;
+	}
+
+	.lightbox-close {
+		top: 1.25rem;
+		right: 1.25rem;
+		font-size: 2rem;
+	}
+
+	.lightbox-nav {
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 1.5rem;
+	}
+
+	.lightbox-prev {
+		left: 1.25rem;
+	}
+
+	.lightbox-next {
+		right: 1.25rem;
+	}
+
+	.lightbox-close:hover,
+	.lightbox-nav:hover {
+		color: #d6d3d1;
+	}
+
+	@media (max-width: 640px) {
+		.lightbox {
+			padding: 3.5rem 1rem 1rem;
+		}
+
+		.lightbox-image {
+			max-width: 100%;
+			max-height: calc(100vh - 5rem);
+		}
+
+		.lightbox-prev {
+			left: 0.5rem;
+		}
+
+		.lightbox-next {
+			right: 0.5rem;
+		}
+	}
+</style>
+
+<script>
+	import type { DOMKeyframesDefinition, Transition } from 'motion-dom';
+	import { animateDom } from '../scripts/animate-dom';
+
+	const fadeIn: DOMKeyframesDefinition = { opacity: [0, 1] };
+	const fadeOut: DOMKeyframesDefinition = { opacity: [1, 0] };
+	const imageEnter: DOMKeyframesDefinition = { opacity: [0, 1], scale: [0.96, 1] };
+	const imageExit: DOMKeyframesDefinition = { opacity: [1, 0], scale: [1, 0.98] };
+	const imageSwap: DOMKeyframesDefinition = { opacity: [0, 1], scale: [0.98, 1] };
+	const fadeInTransition: Transition = { duration: 0.2, ease: 'easeOut' };
+	const fadeOutTransition: Transition = { duration: 0.18, ease: 'easeIn' };
+	const imageEnterTransition: Transition = { duration: 0.28, ease: [0.22, 1, 0.36, 1] };
+	const imageSwapTransition: Transition = { duration: 0.2, ease: 'easeOut' };
+
+	let initialized = false;
+	let isClosing = false;
+
+	function initScreenshotLightbox() {
+		const dialog = document.getElementById('screenshot-lightbox') as HTMLDialogElement | null;
+		const image = dialog?.querySelector<HTMLImageElement>('.lightbox-image');
+		const closeButton = dialog?.querySelector<HTMLButtonElement>('.lightbox-close');
+		const prevButton = dialog?.querySelector<HTMLButtonElement>('.lightbox-prev');
+		const nextButton = dialog?.querySelector<HTMLButtonElement>('.lightbox-next');
+
+		if (!dialog || !image || !closeButton || !prevButton || !nextButton) return;
+		if (initialized) return;
+
+		initialized = true;
+
+		let currentGroup: HTMLButtonElement[] = [];
+		let currentIndex = 0;
+
+		const updateNav = () => {
+			const hasMultiple = currentGroup.length > 1;
+			prevButton.hidden = !hasMultiple;
+			nextButton.hidden = !hasMultiple;
+		};
+
+		const animateOpen = () => {
+			animateDom(dialog, fadeIn, fadeInTransition);
+			animateDom(image, imageEnter, imageEnterTransition);
+		};
+
+		const showImage = (index: number, animateImage = false) => {
+			const button = currentGroup[index];
+			if (!button) return;
+
+			currentIndex = index;
+			image.src = button.dataset.src ?? '';
+			image.alt = button.dataset.alt ?? '';
+			updateNav();
+
+			if (animateImage) {
+				animateDom(image, imageSwap, imageSwapTransition);
+			}
+		};
+
+		const openLightbox = (button: HTMLButtonElement) => {
+			const group = button.dataset.group;
+			if (!group || isClosing) return;
+
+			currentGroup = Array.from(
+				document.querySelectorAll<HTMLButtonElement>(`[data-lightbox][data-group="${group}"]`),
+			);
+			showImage(currentGroup.indexOf(button));
+			dialog.showModal();
+			animateOpen();
+		};
+
+		const closeLightbox = async () => {
+			if (!dialog.open || isClosing) return;
+
+			isClosing = true;
+
+			await Promise.all([
+				animateDom(dialog, fadeOut, fadeOutTransition).finished,
+				animateDom(image, imageExit, fadeOutTransition).finished,
+			]);
+
+			dialog.close();
+			image.removeAttribute('src');
+			dialog.style.opacity = '0';
+			isClosing = false;
+		};
+
+		const showPrevious = () => {
+			if (currentGroup.length < 2 || isClosing) return;
+			showImage((currentIndex - 1 + currentGroup.length) % currentGroup.length, true);
+		};
+
+		const showNext = () => {
+			if (currentGroup.length < 2 || isClosing) return;
+			showImage((currentIndex + 1) % currentGroup.length, true);
+		};
+
+		document.addEventListener('click', (event) => {
+			const button = (event.target as Element).closest<HTMLButtonElement>('[data-lightbox]');
+			if (!button) return;
+			openLightbox(button);
+		});
+
+		closeButton.addEventListener('click', closeLightbox);
+		prevButton.addEventListener('click', showPrevious);
+		nextButton.addEventListener('click', showNext);
+
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) closeLightbox();
+		});
+
+		dialog.addEventListener('cancel', (event) => {
+			event.preventDefault();
+			closeLightbox();
+		});
+
+		dialog.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowLeft') {
+				event.preventDefault();
+				showPrevious();
+			}
+
+			if (event.key === 'ArrowRight') {
+				event.preventDefault();
+				showNext();
+			}
+		});
+	}
+
+	initScreenshotLightbox();
+	document.addEventListener('astro:page-load', initScreenshotLightbox);
+</script>

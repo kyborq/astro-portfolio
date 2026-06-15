@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Константин Подыганов", description = "Frontend Developer" } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="page">
+      <div class="container">
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  :global(.entry-contribution) {
+    margin: 0 0 0.75rem;
+    max-width: 65ch;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  :global(.project-links) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  :global(.project-links a) {
+    color: var(--color-muted);
+  }
+</style>

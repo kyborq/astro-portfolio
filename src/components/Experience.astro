@@ -1,0 +1,65 @@
+---
+import type { Experience } from '../data/types';
+import ScreenshotGallery from './ScreenshotGallery.astro';
+
+interface Props {
+	items: Experience[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="section" id="experience">
+	<h2 class="section-title">Опыт</h2>
+	{
+		items.map((job, jobIndex) => (
+			<article class="entry">
+				<div class="entry-header">
+					<h3 class="entry-title">
+						{job.url ? (
+							<a href={job.url} target="_blank" rel="noopener noreferrer">
+								{job.company}
+							</a>
+						) : (
+							job.company
+						)}
+						<span class="entry-location">, {job.location}</span>
+					</h3>
+					<time class="entry-meta">{job.period}</time>
+				</div>
+				<p class="entry-role">{job.role}</p>
+				<p class="entry-impact">{job.impact}</p>
+				<p class="entry-description">{job.project}</p>
+				<ul class="entry-list">
+					{job.highlights.map((item) => (
+						<li>{item}</li>
+					))}
+				</ul>
+				<ul class="tags" aria-label="Стек">
+					{job.stack.map((tech) => (
+						<li class="tag">{tech}</li>
+					))}
+				</ul>
+				<ScreenshotGallery
+					screenshots={job.screenshots}
+					groupId={`experience-${jobIndex}`}
+					label={`проекта ${job.company}`}
+					variant="bottom"
+				/>
+			</article>
+		))
+	}
+</section>
+
+<style>
+	.entry-location {
+		font-weight: 400;
+		color: var(--color-muted);
+	}
+
+	.entry-impact {
+		margin: 0 0 0.75rem;
+		max-width: 65ch;
+		font-weight: 500;
+	}
+</style>

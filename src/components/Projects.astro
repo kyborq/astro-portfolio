@@ -1,0 +1,56 @@
+---
+import type { Project } from "../data/types";
+import ScreenshotGallery from "./ScreenshotGallery.astro";
+
+interface Props {
+  items: Project[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="section" id="projects">
+      <h2 class="section-title">Проекты</h2>
+      {items.map((project, projectIndex) => (
+        <article class="entry">
+          <ScreenshotGallery
+            screenshots={project.screenshots}
+            groupId={`project-${projectIndex}`}
+            label={`проекта ${project.title}`}
+          />
+          <div class="entry-header">
+            <h3 class="entry-title">{project.title}</h3>
+            <time class="entry-meta">{project.year}</time>
+          </div>
+          <p class="entry-description">{project.description}</p>
+          <p class="entry-contribution">{project.contribution}</p>
+          {(project.url || project.github) && (
+            <div class="project-links">
+              {project.url && (
+                <a href={project.url} target="_blank" rel="noopener noreferrer">
+                  Сайт
+                </a>
+              )}
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </a>
+              )}
+            </div>
+          )}
+          <ul class="tags" aria-label="Стек">
+            {project.stack.map((tech) => (
+              <li class="tag">{tech}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </section>
+  )
+}

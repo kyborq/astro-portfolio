@@ -1,0 +1,167 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --content-width: 928px;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-bg: #fafaf9;
+  --color-text: #1c1917;
+  --color-muted: #57534e;
+  --color-border: #e7e5e4;
+  --color-link: #1c1917;
+  --color-accent: #15803d;
+  --space-section: 5rem;
+  --space-block: 2.5rem;
+  --space-item: 1.5rem;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 4rem 1.5rem 6rem;
+}
+
+.container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.section {
+  margin-top: var(--space-section);
+}
+
+.section-title {
+  margin: 0 0 var(--space-block);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.entry {
+  padding-bottom: var(--space-block);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.entry + .entry {
+  margin-top: var(--space-block);
+}
+
+.entry-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.entry-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.entry-meta {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.entry-role {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.entry-description {
+  margin: 0 0 1rem;
+  max-width: 65ch;
+}
+
+.entry-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.entry-list li {
+  margin-bottom: 0.5rem;
+}
+
+.entry-list li:last-child {
+  margin-bottom: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.tag::before {
+  content: "";
+}
+
+.tag + .tag::before {
+  content: "·";
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  :root {
+    --space-section: 3.5rem;
+    --space-block: 2rem;
+  }
+
+  .entry-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
