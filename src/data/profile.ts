@@ -23,6 +23,11 @@ export const profile: Profile = {
       href: "mailto:k.podyganov@mail.ru",
     },
     { label: "GitHub", value: "kyborq", href: "https://github.com/kyborq" },
+    {
+      label: "LinkedIn",
+      value: "konstantin-podyganov",
+      href: "https://www.linkedin.com/in/konstantin-podyganov/",
+    },
     { label: "Setka", value: "set.ki", href: "https://set.ki/account/h3PzzTW" },
   ],
   primaryContactHref: "https://t.me/kyborq",

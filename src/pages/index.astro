@@ -1,24 +1,29 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Intro from '../components/Intro.astro';
-import Experience from '../components/Experience.astro';
-import Projects from '../components/Projects.astro';
-import Activities from '../components/Activities.astro';
-import ScreenshotLightbox from '../components/ScreenshotLightbox.astro';
-import { profile } from '../data/profile';
-import { experience } from '../data/experience';
-import { projects } from '../data/projects';
-import { activities } from '../data/activities';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Intro from "../components/Intro.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+import Mentorship from "../components/Mentorship.astro";
+import Activities from "../components/Activities.astro";
+import ScreenshotLightbox from "../components/ScreenshotLightbox.astro";
+import { profile } from "../data/profile";
+import { experience } from "../data/experience";
+import { projects } from "../data/projects";
+import { activities } from "../data/activities";
 ---
 
-<BaseLayout title={`${profile.name} — ${profile.title}`} description={profile.tagline}>
-	<Intro profile={profile} />
-	<Experience items={experience} />
-	<Projects items={projects} />
-	<Activities items={activities} />
-	<ScreenshotLightbox />
+<BaseLayout
+  title={`${profile.name} — ${profile.title}`}
+  description={profile.tagline}
+>
+  <Intro profile={profile} />
+  <Experience items={experience} />
+  <Projects items={projects} />
+  <Activities items={activities} />
+  <Mentorship />
+  <ScreenshotLightbox />
 </BaseLayout>
 
 <script>
-	import '../scripts/screenshot-gallery.ts';
+  import "../scripts/screenshot-gallery.ts";
 </script>
