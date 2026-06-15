@@ -1,0 +1,49 @@
+services:
+  web:
+    build: .
+    container_name: kpodyganov-web
+    restart: unless-stopped
+
+    networks:
+      - traefik-network
+
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-network
+
+      # Middlewares
+      - traefik.http.middlewares.kpodyganov-compress.compress=true
+      - traefik.http.middlewares.kpodyganov-www-redirect.redirectregex.regex=^https?://www\.k-podyganov\.ru(.*)
+      - traefik.http.middlewares.kpodyganov-www-redirect.redirectregex.replacement=https://k-podyganov.ru$${1}
+      - traefik.http.middlewares.kpodyganov-www-redirect.redirectregex.permanent=true
+
+      # HTTPS (apex)
+      - traefik.http.routers.kpodyganov.rule=Host(`k-podyganov.ru`)
+      - traefik.http.routers.kpodyganov.entrypoints=websecure
+      - traefik.http.routers.kpodyganov.tls=true
+      - traefik.http.routers.kpodyganov.tls.certresolver=le
+      - traefik.http.routers.kpodyganov.middlewares=kpodyganov-compress
+      - traefik.http.services.kpodyganov.loadbalancer.server.port=80
+
+      # HTTPS www → apex
+      - traefik.http.routers.kpodyganov-www.rule=Host(`www.k-podyganov.ru`)
+      - traefik.http.routers.kpodyganov-www.entrypoints=websecure
+      - traefik.http.routers.kpodyganov-www.tls=true
+      - traefik.http.routers.kpodyganov-www.tls.certresolver=le
+      - traefik.http.routers.kpodyganov-www.middlewares=kpodyganov-www-redirect
+      - traefik.http.routers.kpodyganov-www.service=kpodyganov
+
+      # HTTP apex → HTTPS (middleware из infra/traefik/dynamic/middlewares.yml)
+      - traefik.http.routers.kpodyganov-http.rule=Host(`k-podyganov.ru`)
+      - traefik.http.routers.kpodyganov-http.entrypoints=web
+      - traefik.http.routers.kpodyganov-http.middlewares=redirect-to-https@file
+
+      # HTTP www → apex (single redirect)
+      - traefik.http.routers.kpodyganov-www-http.rule=Host(`www.k-podyganov.ru`)
+      - traefik.http.routers.kpodyganov-www-http.entrypoints=web
+      - traefik.http.routers.kpodyganov-www-http.middlewares=kpodyganov-www-redirect
+      - traefik.http.routers.kpodyganov-www-http.service=kpodyganov
+
+networks:
+  traefik-network:
+    external: true
