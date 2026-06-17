@@ -43,6 +43,29 @@ export const projects: Project[] = [
       "/projects/aid-club/overview-2.jpg",
     ],
     url: "https://aid-club.ru",
-    stack: ["React", "Elysia.js", "Prisma ORM", "PostgreSQL"],
+    stack: [
+      "React",
+      "Elysia.js",
+      "Telegram Bot API",
+      "Prisma ORM",
+      "PostgreSQL",
+    ],
+  },
+  {
+    title: "КандиПоиск",
+    description:
+      "Платформа для поиска кандидатов по открытому резюме. Собирает сырой поток профилей из Telegram, форм и резюме, парсит их в структуру и даёт поиск по естественному запросу и фильтрам",
+    contribution:
+      "Pet‑project: идея продукта, архитектура, веб‑приложение на SvelteKit, worker для фоновой обработки, схема БД и работа с PostgreSQL через Prisma",
+    year: "2025",
+    screenshots: ["/projects/kandipoisk/overview-1.jpg"],
+    url: "https://kandisearch.ru",
+    stack: [
+      "SvelteKit",
+      "Telegram API",
+      "Telegram Bot API",
+      "PostgreSQL",
+      "Prisma",
+    ],
   },
 ];
