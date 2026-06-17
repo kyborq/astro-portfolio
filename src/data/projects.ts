@@ -57,7 +57,7 @@ export const projects: Project[] = [
       "Платформа для поиска кандидатов по открытому резюме. Собирает сырой поток профилей из Telegram, форм и резюме, парсит их в структуру и даёт поиск по естественному запросу и фильтрам",
     contribution:
       "Pet‑project: идея продукта, архитектура, веб‑приложение на SvelteKit, worker для фоновой обработки, схема БД и работа с PostgreSQL через Prisma",
-    year: "2025",
+    year: "2026",
     screenshots: ["/projects/kandipoisk/overview-1.jpg"],
     url: "https://kandipoisk.ru",
     stack: [
