@@ -1,0 +1,131 @@
+---
+import { mentor } from "../../data/mentor";
+import { profile } from "../../data/profile";
+
+const { hero } = mentor;
+---
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">{hero.eyebrow}</p>
+    <h1 class="hero-title">{hero.title}</h1>
+    <p class="hero-subtitle">{hero.subtitle}</p>
+    <div class="hero-actions">
+      <a class="hero-cta-primary" href={hero.cta.href} target="_blank" rel="noopener noreferrer">
+        {hero.cta.label}
+      </a>
+      <a class="hero-cta-secondary" href={hero.secondaryCta.href} target="_blank" rel="noopener noreferrer">
+        {hero.secondaryCta.label}
+      </a>
+    </div>
+  </div>
+  <img
+    class="hero-avatar"
+    src="/avatar.jpg"
+    alt={profile.name}
+    width="160"
+    height="160"
+    loading="eager"
+    decoding="async"
+  />
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2.5rem 3rem;
+    align-items: start;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero-eyebrow {
+    margin: 0 0 1rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .hero-title {
+    margin: 0 0 1.25rem;
+    max-width: 22ch;
+    font-size: clamp(1.625rem, 4vw, 2.125rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .hero-subtitle {
+    margin: 0 0 2rem;
+    max-width: 48ch;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-cta-primary,
+  .hero-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .hero-cta-primary {
+    color: #fff;
+    background: var(--color-text);
+  }
+
+  .hero-cta-primary:hover {
+    background: #44403c;
+  }
+
+  .hero-cta-secondary {
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: #fff;
+  }
+
+  .hero-cta-secondary:hover {
+    background: var(--color-bg);
+  }
+
+  .hero-avatar {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-avatar {
+      order: -1;
+      width: 112px;
+      height: 112px;
+    }
+
+    .hero-title {
+      max-width: none;
+    }
+  }
+</style>

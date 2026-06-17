@@ -44,6 +44,19 @@ services:
       - traefik.http.routers.kpodyganov-www-http.middlewares=kpodyganov-www-redirect
       - traefik.http.routers.kpodyganov-www-http.service=kpodyganov
 
+      # HTTPS mentor subdomain
+      - traefik.http.routers.kpodyganov-mentor.rule=Host(`mentor.k-podyganov.ru`)
+      - traefik.http.routers.kpodyganov-mentor.entrypoints=websecure
+      - traefik.http.routers.kpodyganov-mentor.tls=true
+      - traefik.http.routers.kpodyganov-mentor.tls.certresolver=le
+      - traefik.http.routers.kpodyganov-mentor.middlewares=kpodyganov-compress
+      - traefik.http.routers.kpodyganov-mentor.service=kpodyganov
+
+      # HTTP mentor → HTTPS
+      - traefik.http.routers.kpodyganov-mentor-http.rule=Host(`mentor.k-podyganov.ru`)
+      - traefik.http.routers.kpodyganov-mentor-http.entrypoints=web
+      - traefik.http.routers.kpodyganov-mentor-http.middlewares=redirect-to-https@file
+
 networks:
   traefik-network:
     external: true

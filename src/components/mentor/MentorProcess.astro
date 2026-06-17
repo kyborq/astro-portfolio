@@ -1,0 +1,130 @@
+---
+import { mentor } from "../../data/mentor";
+
+const { process } = mentor;
+---
+
+<section class="section process">
+  <h2 class="section-label">{process.title}</h2>
+
+  <div class="process-grid">
+    {
+      process.steps.map((step) => (
+        <article class="process-step">
+          <h3 class="process-step-label">{step.label}</h3>
+          <p class="process-step-detail">{step.detail}</p>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="process-formats">
+    <p class="process-formats-label">Форматы</p>
+    <ul class="process-formats-list">
+      {process.formats.map((format) => <li>{format}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .section {
+    margin-top: var(--space-section);
+  }
+
+  .section-label {
+    margin: 0 0 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .process-step {
+    padding: 1.5rem 1.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .process-step:nth-child(odd) {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .process-step:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .process-step-label {
+    margin: 0 0 0.625rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .process-step-detail {
+    margin: 0;
+    max-width: 38ch;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+
+  .process-formats {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--color-accent);
+    background: #fff;
+  }
+
+  .process-formats-label {
+    margin: 0 0 0.625rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .process-formats-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .process-formats-list li {
+    margin-bottom: 0.375rem;
+    font-size: 0.9375rem;
+  }
+
+  .process-formats-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .process-step:nth-child(odd) {
+      border-right: none;
+    }
+
+    .process-step:nth-last-child(-n + 2) {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .process-step:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

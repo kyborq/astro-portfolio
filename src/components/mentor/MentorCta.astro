@@ -1,0 +1,101 @@
+---
+import { mentor } from "../../data/mentor";
+
+const { cta } = mentor;
+---
+
+<section class="section cta" id="contact">
+  <div class="cta-panel">
+    <h2 class="cta-title">{cta.title}</h2>
+    <p class="cta-text">{cta.text}</p>
+    <div class="cta-actions">
+      <a class="cta-button cta-button-primary" href={cta.primary.href} target="_blank" rel="noopener noreferrer">
+        {cta.primary.label}
+      </a>
+      <a class="cta-button cta-button-secondary" href={cta.secondary.href} target="_blank" rel="noopener noreferrer">
+        {cta.secondary.label}
+      </a>
+    </div>
+    <p class="cta-note">{cta.note}</p>
+  </div>
+</section>
+
+<style>
+  .section {
+    margin-top: var(--space-section);
+  }
+
+  .cta-panel {
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: #fff;
+    text-align: center;
+  }
+
+  .cta-title {
+    margin: 0 0 0.875rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .cta-text {
+    margin: 0 auto 1.75rem;
+    max-width: 42ch;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .cta-button-primary {
+    color: #fff;
+    background: var(--color-text);
+  }
+
+  .cta-button-primary:hover {
+    background: #44403c;
+  }
+
+  .cta-button-secondary {
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .cta-button-secondary:hover {
+    background: #fff;
+  }
+
+  .cta-note {
+    margin: 1.25rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 640px) {
+    .cta-panel {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>

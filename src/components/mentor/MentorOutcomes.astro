@@ -1,0 +1,74 @@
+---
+import { mentor } from "../../data/mentor";
+
+const { outcomes } = mentor;
+---
+
+<section class="section outcomes">
+  <div class="outcomes-header">
+    <h2 class="section-label">{outcomes.title}</h2>
+  </div>
+  <ol class="outcomes-list">
+    {outcomes.items.map((item) => <li>{item}</li>)}
+  </ol>
+</section>
+
+<style>
+  .section {
+    margin-top: var(--space-section);
+  }
+
+  .section-label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .outcomes {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0 2.5rem;
+    align-items: start;
+  }
+
+  .outcomes-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: outcome;
+  }
+
+  .outcomes-list li {
+    position: relative;
+    margin: 0;
+    padding: 1rem 0 1rem 2.75rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    counter-increment: outcome;
+  }
+
+  .outcomes-list li::before {
+    content: counter(outcome, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+  }
+
+  .outcomes-list li:last-child {
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .outcomes {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+  }
+</style>
