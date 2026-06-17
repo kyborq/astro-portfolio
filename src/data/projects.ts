@@ -59,7 +59,7 @@ export const projects: Project[] = [
       "Pet‑project: идея продукта, архитектура, веб‑приложение на SvelteKit, worker для фоновой обработки, схема БД и работа с PostgreSQL через Prisma",
     year: "2025",
     screenshots: ["/projects/kandipoisk/overview-1.jpg"],
-    url: "https://kandisearch.ru",
+    url: "https://kandipoisk.ru",
     stack: [
       "SvelteKit",
       "Telegram API",
